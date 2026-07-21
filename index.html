@@ -123,7 +123,7 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // URL Google Apps Script yang sudah terhubung
+        // URL Google Apps Script milik Anda
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzScv_R0yt5nxn-2PEkADUQT752Mcyw4NqTzjXowOmvT9VSJ0O6OVRpoy2LDQGnvkk/exec';
 
         // Bank Data Rombel per Tingkat
@@ -285,7 +285,7 @@
             }
         }
 
-        // Form Submit
+        // Form Submit Logic (Bypass CORS via text/plain header)
         document.getElementById('bkSurveyForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -314,10 +314,14 @@
 
             fetch(scriptURL, {
                 method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8',
+                },
                 body: JSON.stringify(payload)
             })
             .then(res => {
-                alert('Terima kasih! Survey berhasil terkirim ke Database BK.');
+                alert('Terima kasih! Survey berhasil terkirim ke Database BK SMAN 2 Satui.');
                 window.location.reload();
             })
             .catch(err => {
