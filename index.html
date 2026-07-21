@@ -309,7 +309,7 @@
             }
         }
 
-        // Form Submit Logic
+        // Form Submit Logic (Menggunakan URLSearchParams agar balasan error dari Server Google Apps Script terbaca)
         document.getElementById('bkSurveyForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -334,26 +334,32 @@
 
             const btnSubmit = document.getElementById('btnSubmit');
             btnSubmit.disabled = true;
-            btnSubmit.innerText = "Mengirim...";
+            btnSubmit.innerHTML = '<span>Mengirim...</span> <i class="fa-solid fa-spinner fa-spin text-sm"></i>';
 
+            // Kirim menggunakan Form Parameters
             fetch(scriptURL, {
                 method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8',
-                },
-                body: JSON.stringify(payload)
+                body: new URLSearchParams(payload)
             })
-            .then(res => {
-                // Tandai di local storage bahwa browser ini sudah pernah mengisi
-                localStorage.setItem('bk_survey_submitted', 'true');
-                alert('Terima kasih! Survey berhasil terkirim ke Database BK SMAN 2 Satui.');
-                window.location.reload();
+            .then(res => res.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    localStorage.setItem('bk_survey_submitted', 'true');
+                    alert('Terima kasih! Survey berhasil terkirim ke Database BK SMAN 2 Satui.');
+                    window.location.reload();
+                } else {
+                    // TAMPILKAN POPUP PERINGATAN JIKA NAMA DUPLIKAT DI SERVER
+                    alert(data.message);
+                    btnSubmit.disabled = false;
+                    btnSubmit.className = "w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2 cursor-pointer";
+                    btnSubmit.innerHTML = '<span>Kirim Jawaban Survey</span> <i class="fa-solid fa-paper-plane text-sm"></i>';
+                }
             })
             .catch(err => {
-                alert('Gagal mengirim jawaban. Pastikan koneksi terhubung.');
+                alert('Terjadi kesalahan saat menghubungkan ke database. Silakan periksa koneksi dan coba lagi.');
                 btnSubmit.disabled = false;
-                btnSubmit.innerText = "Kirim Jawaban Survey";
+                btnSubmit.className = "w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2 cursor-pointer";
+                btnSubmit.innerHTML = '<span>Kirim Jawaban Survey</span> <i class="fa-solid fa-paper-plane text-sm"></i>';
             });
         });
     </script>
