@@ -126,6 +126,30 @@
         // URL Google Apps Script milik Anda
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzScv_R0yt5nxn-2PEkADUQT752Mcyw4NqTzjXowOmvT9VSJ0O6OVRpoy2LDQGnvkk/exec';
 
+        // 1. Cek Apakah Siswa Sudah Pernah Mengisi saat Halaman Dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('bk_survey_submitted') === 'true') {
+                showAlreadySubmittedUI();
+            }
+        });
+
+        function showAlreadySubmittedUI() {
+            const formContainer = document.getElementById('bkSurveyForm');
+            if (formContainer) {
+                formContainer.innerHTML = `
+                    <div class="text-center py-10 px-4 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-3">
+                        <div class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-2xl shadow-lg shadow-emerald-500/30">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-emerald-900">Terima Kasih!</h3>
+                        <p class="text-slate-600 text-sm max-w-md mx-auto leading-relaxed">
+                            Anda sudah pernah mengisi <b>Angket Kebutuhan Peserta Didik (BK)</b> ini. Data Anda telah tersimpan di Database BK SMAN 2 Satui.
+                        </p>
+                    </div>
+                `;
+            }
+        }
+
         // Bank Data Rombel per Tingkat
         const rombelData = {
             'X': ['X-A', 'X-B', 'X-C', 'X-D', 'X-E', 'X-F'],
@@ -285,7 +309,7 @@
             }
         }
 
-        // Form Submit Logic (Bypass CORS via text/plain header)
+        // Form Submit Logic
         document.getElementById('bkSurveyForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -321,6 +345,8 @@
                 body: JSON.stringify(payload)
             })
             .then(res => {
+                // Tandai di local storage bahwa browser ini sudah pernah mengisi
+                localStorage.setItem('bk_survey_submitted', 'true');
                 alert('Terima kasih! Survey berhasil terkirim ke Database BK SMAN 2 Satui.');
                 window.location.reload();
             })
