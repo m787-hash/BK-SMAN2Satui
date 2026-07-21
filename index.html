@@ -87,7 +87,7 @@
                 <!-- INFORMASI DUKUNGAN KELAS -->
                 <div id="noClassNotice" class="text-center py-8 text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200">
                     <i class="fa-solid fa-list-check text-3xl mb-2 text-slate-300"></i>
-                    <p class="text-sm">Silakan pilih **Tingkat Kelas** di atas untuk memuat daftar pertanyaan survey.</p>
+                    <p class="text-sm">Silakan pilih <b>Tingkat Kelas</b> di atas untuk memuat daftar pertanyaan survey.</p>
                 </div>
 
                 <!-- 2. PERTANYAAN SURVEI (DYNAMIC CONTAINER) -->
@@ -123,8 +123,8 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // URL Google Apps Script Anda nanti dimasukkan di sini
-        const scriptURL = 'PASTE_URL_GOOGLE_APPS_SCRIPT_DI_SINI';
+        // URL Google Apps Script yang sudah terhubung
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzScv_R0yt5nxn-2PEkADUQT752Mcyw4NqTzjXowOmvT9VSJ0O6OVRpoy2LDQGnvkk/exec';
 
         // Bank Data Rombel per Tingkat
         const rombelData = {
@@ -133,7 +133,7 @@
             'XII': ['XII-1', 'XII-2', 'XII-3', 'XII-4', 'XII-5', 'XII-IPA 1', 'XII-IPA 2', 'XII-IPS 1', 'XII-IPS 2']
         };
 
-        // Bank Soal Berdasarkan Gambar Dokumen BK SMAN 2 SATUI
+        // Bank Soal Berdasarkan Instrumen Diagnostik BK SMAN 2 SATUI
         const soalBK = {
             'X': {
                 tujuan: "Tujuan: Menjaring masalah dan kebutuhan murid secara umum",
