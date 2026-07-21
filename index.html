@@ -3,139 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Survey Kebutuhan Siswa - Bimbingan Konseling</title>
-    <!-- Tailwind CSS via CDN -->
+    <title>Survey BK - SMAN 2 SATUI</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Font: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
 
-    <!-- Header / Navbar -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-md">
-                    <i class="fa-solid font-heart-pulse"></i>
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow">
                     BK
                 </div>
                 <div>
-                    <h1 class="font-bold text-slate-900 leading-tight">Layanan Bimbingan Konseling</h1>
-                    <p class="text-xs text-slate-500">SMA Negeri 1 Indonesia</p>
+                    <h1 class="font-bold text-slate-900 leading-tight">RUANG BIMBINGAN DAN KONSELING</h1>
+                    <p class="text-xs text-slate-500 font-semibold">SMA NEGERI 2 SATUI</p>
                 </div>
             </div>
-            <span class="bg-indigo-50 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full border border-indigo-100">
-                Survey 2026
+            <span class="bg-indigo-50 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full border border-indigo-100">
+                Instrumen Diagnostik
             </span>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-2xl mx-auto w-full px-4 py-8 flex-grow">
-        
-        <!-- Card Survey -->
-        <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-6 md:p-8">
+    <!-- Main Form -->
+    <main class="max-w-3xl mx-auto w-full px-4 py-8 flex-grow">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8">
             
-            <!-- Survey Title -->
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold text-slate-900">Survey Asesmen Kebutuhan Peserta Didik</h2>
-                <p class="text-slate-600 text-sm mt-1">Jawabanmu akan dijaga kerahasiaannya dan digunakan untuk pengembangan pemetaan layanan BK.</p>
+            <div class="border-b border-slate-100 pb-5 mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">Angket Keperluan Murid</h2>
+                <p id="surveySubtext" class="text-slate-600 text-sm mt-1">Silakan pilih kelas Anda untuk menampilkan instrumen pertanyaan yang sesuai.</p>
             </div>
 
-            <!-- Progress Bar -->
-            <div class="mb-8">
-                <div class="flex justify-between text-xs text-slate-500 mb-2 font-medium">
-                    <span>Progress Pengisian</span>
-                    <span>Proses Data</span>
-                </div>
-                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                    <div class="bg-indigo-600 h-full w-1/3 rounded-full transition-all duration-300"></div>
-                </div>
-            </div>
-
-            <!-- Form -->
             <form id="bkSurveyForm" class="space-y-6">
                 
-                <!-- Section Data Diri -->
+                <!-- 1. IDENTITAS SISWA -->
                 <div class="space-y-4">
-                    <h3 class="text-sm font-semibold text-indigo-600 tracking-wider uppercase">1. Identitas Siswa</h3>
+                    <h3 class="text-xs font-bold text-indigo-600 tracking-wider uppercase">1. Identitas Siswa</h3>
                     
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-1">Nama Lengkap</label>
-                        <input type="text" required placeholder="Contoh: Budi Pratama" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm">
+                        <input type="text" id="nama" required placeholder="Masukkan nama lengkap Anda" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Tingkat Kelas -->
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Kelas</label>
-                            <select required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm bg-white">
-                                <option value="">Pilih Kelas</option>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Tingkat Kelas</label>
+                            <select id="tingkatSelect" required onchange="handleTingkatChange()" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm bg-white">
+                                <option value="">-- Pilih Tingkat --</option>
                                 <option value="X">Kelas X</option>
                                 <option value="XI">Kelas XI</option>
                                 <option value="XII">Kelas XII</option>
                             </select>
                         </div>
+
+                        <!-- Sub-Kelas / Rombel -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Rombel / Sub-Kelas</label>
+                            <select id="rombelSelect" required disabled class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm bg-slate-100">
+                                <option value="">-- Pilih Tingkat Dulu --</option>
+                            </select>
+                        </div>
+
+                        <!-- Jenis Kelamin -->
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">Jenis Kelamin</label>
-                            <select required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm bg-white">
-                                <option value="">Pilih</option>
-                                <option value="L">Laki-laki</option>
-                                <option value="P">Perempuan</option>
+                            <select id="jk" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm bg-white">
+                                <option value="">-- Pilih --</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <hr class="border-slate-100 my-6">
+                <hr class="border-slate-100">
 
-                <!-- Section Pertanyaan Survey -->
-                <div class="space-y-4">
-                    <h3 class="text-sm font-semibold text-indigo-600 tracking-wider uppercase">2. Pertanyaan Bidang Pribadi/Belajar</h3>
-                    
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                        <label class="block text-sm font-medium text-slate-800 mb-3">
-                            Saya merasa kesulitan membagi waktu antara belajar dan kegiatan pribadi/ekstrakurikuler.
-                        </label>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            <label class="flex items-center justify-center p-3 text-xs font-medium border border-slate-200 bg-white rounded-lg cursor-pointer hover:bg-indigo-50 hover:border-indigo-200 transition text-slate-700">
-                                <input type="radio" name="p1" value="Sangat Sesuai" class="hidden">
-                                Sangat Sesuai
-                            </label>
-                            <label class="flex items-center justify-center p-3 text-xs font-medium border border-slate-200 bg-white rounded-lg cursor-pointer hover:bg-indigo-50 hover:border-indigo-200 transition text-slate-700">
-                                <input type="radio" name="p1" value="Sesuai" class="hidden">
-                                Sesuai
-                            </label>
-                            <label class="flex items-center justify-center p-3 text-xs font-medium border border-slate-200 bg-white rounded-lg cursor-pointer hover:bg-indigo-50 hover:border-indigo-200 transition text-slate-700">
-                                <input type="radio" name="p1" value="Jarang" class="hidden">
-                                Jarang
-                            </label>
-                            <label class="flex items-center justify-center p-3 text-xs font-medium border border-slate-200 bg-white rounded-lg cursor-pointer hover:bg-indigo-50 hover:border-indigo-200 transition text-slate-700">
-                                <input type="radio" name="p1" value="Tidak Pernah" class="hidden">
-                                Tidak Pernah
-                            </label>
-                        </div>
+                <!-- INFORMASI DUKUNGAN KELAS -->
+                <div id="noClassNotice" class="text-center py-8 text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                    <i class="fa-solid fa-list-check text-3xl mb-2 text-slate-300"></i>
+                    <p class="text-sm">Silakan pilih **Tingkat Kelas** di atas untuk memuat daftar pertanyaan survey.</p>
+                </div>
+
+                <!-- 2. PERTANYAAN SURVEI (DYNAMIC CONTAINER) -->
+                <div id="questionsContainer" class="hidden space-y-6">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-bold text-indigo-600 tracking-wider uppercase">2. Daftar Pertanyaan</h3>
+                        <span id="tujuanTag" class="text-xs bg-indigo-50 text-indigo-700 font-medium px-2.5 py-1 rounded-md"></span>
+                    </div>
+
+                    <p class="text-xs text-slate-500 italic">Petunjuk: Pilihlah tingkat keperluan di setiap pernyataan berikut.</p>
+
+                    <!-- Render Soal secara otomatis lewat JavaScript -->
+                    <div id="questionList" class="space-y-4"></div>
+
+                    <!-- Pertanyaan Tambahan / Khusus Per Kelas -->
+                    <div id="extraQuestionBox" class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 space-y-2 mt-6">
+                        <!-- Injected via JS -->
                     </div>
                 </div>
 
-                <!-- Submit Button -->
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-indigo-600/30 transition duration-200 flex items-center justify-center space-x-2">
-                    <span>Kirim Jawaban</span>
+                <!-- SUBMIT BUTTON -->
+                <button type="submit" id="btnSubmit" disabled class="w-full bg-slate-300 text-slate-500 font-semibold py-3.5 px-4 rounded-xl transition flex items-center justify-center space-x-2 cursor-not-allowed">
+                    <span>Kirim Jawaban Survey</span>
                     <i class="fa-solid fa-paper-plane text-sm"></i>
                 </button>
             </form>
-
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="text-center py-6 text-xs text-slate-400">
-        &copy; 2026 Tim Bimbingan & Konseling. Powered by GitHub Pages.
+        &copy; 2026 Ruang Bimbingan & Konseling SMA Negeri 2 Satui.
     </footer>
 
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // URL Google Apps Script Anda nanti dimasukkan di sini
+        const scriptURL = 'PASTE_URL_GOOGLE_APPS_SCRIPT_DI_SINI';
+
+        // Bank Data Rombel per Tingkat
+        const rombelData = {
+            'X': ['X-A', 'X-B', 'X-C', 'X-D', 'X-E', 'X-F'],
+            'XI': ['XI-1', 'XI-2', 'XI-3', 'XI-4', 'XI-5', 'XI-IPA 1', 'XI-IPA 2', 'XI-IPS 1', 'XI-IPS 2'],
+            'XII': ['XII-1', 'XII-2', 'XII-3', 'XII-4', 'XII-5', 'XII-IPA 1', 'XII-IPA 2', 'XII-IPS 1', 'XII-IPS 2']
+        };
+
+        // Bank Soal Berdasarkan Gambar Dokumen BK SMAN 2 SATUI
+        const soalBK = {
+            'X': {
+                tujuan: "Tujuan: Menjaring masalah dan kebutuhan murid secara umum",
+                extraType: "text",
+                extraLabel: "Masalah yang paling saya rasakan saat ini :",
+                soal: [
+                    { id: 1, bidang: "Pribadi", teks: "Memahami dan menerima diri sendiri." },
+                    { id: 2, bidang: "Pribadi", teks: "Mengatasi rasa cemas, minder, dan stress." },
+                    { id: 3, bidang: "Pribadi", teks: "Mengatur waktu belajar dan istirahat." },
+                    { id: 4, bidang: "Sosial", teks: "Cara berteman dan bekerjasama dengan teman." },
+                    { id: 5, bidang: "Sosial", teks: "Mengatasi masalah perundungan/bullying." },
+                    { id: 6, bidang: "Sosial", teks: "Cara berkomunikasi dengan guru dan orang tua." },
+                    { id: 7, bidang: "Belajar", teks: "Teknik belajar yang efektif." },
+                    { id: 8, bidang: "Belajar", teks: "Mengatasi kesulitan pada mata pelajaran tertentu." },
+                    { id: 9, bidang: "Belajar", teks: "Persiapan menghadapi ujian/TKA." },
+                    { id: 10, bidang: "Karir", teks: "Mengenal bakat dan minat saya." },
+                    { id: 11, bidang: "Karir", teks: "Informasi tentang jurusan kuliah di PTN/PTS." },
+                    { id: 12, bidang: "Karir", teks: "Perencanaan masa depan setelah lulus SMA." }
+                ]
+            },
+            'XI': {
+                tujuan: "Tujuan: Pemantapan diri dan prestasi",
+                extraType: "text",
+                extraLabel: "Masalah yang paling saya khawatirkan di kelas XI :",
+                soal: [
+                    { id: 1, bidang: "Pribadi", teks: "Mengelola emosi saat menghadapi tekanan akademik." },
+                    { id: 2, bidang: "Pribadi", teks: "Membangun rasa percaya diri dan identitas diri." },
+                    { id: 3, bidang: "Pribadi", teks: "Menjalin hubungan pacaran yang sehat." },
+                    { id: 4, bidang: "Sosial", teks: "Kepemimpinan dan kerjasama dalam organisasi/ekskul." },
+                    { id: 5, bidang: "Sosial", teks: "Menyelesaikan konflik dengan teman/guru." },
+                    { id: 6, bidang: "Sosial", teks: "Etika pergaulan di media sosial." },
+                    { id: 7, bidang: "Belajar", teks: "Meningkatkan prestasi akademik untuk tes perguruan tinggi/SNMPTN." },
+                    { id: 8, bidang: "Belajar", teks: "Teknik belajar untuk peminatan : IPA/IPS." },
+                    { id: 9, bidang: "Belajar", teks: "Persiapan Olimpiade/Lomba Akademik." },
+                    { id: 10, bidang: "Karir", teks: "Memantapkan pilihan peminatan dan jurusan kuliah." },
+                    { id: 11, bidang: "Karir", teks: "Mengenal dunia kerja dan wirausaha." },
+                    { id: 12, bidang: "Karir", teks: "Informasi beasiswa dan jalur masuk PTN/PTS." }
+                ]
+            },
+            'XII': {
+                tujuan: "Tujuan: Transisi menuju masa depan",
+                extraType: "select",
+                extraLabel: "Rencana saya setelah lulus SMA :",
+                extraOptions: ["Kuliah", "Kerja", "Wirausaha", "Belum tahu"],
+                soal: [
+                    { id: 1, bidang: "Pribadi", teks: "Mengatasi kecemasan menghadapi Ujian Sekolah/TKA." },
+                    { id: 2, bidang: "Pribadi", teks: "Pengambilan keputusan yang bertanggungjawab." },
+                    { id: 3, bidang: "Pribadi", teks: "Kemandirian dan kesiapan hidup setelah lulus SMA." },
+                    { id: 4, bidang: "Sosial", teks: "Menjaga hubungan baik menjelang perpisahan sekolah." },
+                    { id: 5, bidang: "Sosial", teks: "Komunikasi efektif dengan orang tua soal masa depan." },
+                    { id: 6, bidang: "Sosial", teks: "Etika melamar kerja/wawancara." },
+                    { id: 7, bidang: "Belajar", teks: "Strategi sukses Ujian Sekolah/TKA." },
+                    { id: 8, bidang: "Belajar", teks: "Bedah soal dan manajemen waktu saat ujian." },
+                    { id: 9, bidang: "Belajar", teks: "Bimbingan penulisan portofolio/prestasi." },
+                    { id: 10, bidang: "Karir", teks: "Memilih tempat kuliah PTN/PTS dan program studi yang tepat." },
+                    { id: 11, bidang: "Karir", teks: "Informasi SNPMB (SNBP, SNBT, Mandiri)." },
+                    { id: 12, bidang: "Karir", teks: "Perencanaan : Kuliah, Kerja, Wirausaha." }
+                ]
+            }
+        };
+
+        function handleTingkatChange() {
+            const tingkat = document.getElementById('tingkatSelect').value;
+            const rombelSelect = document.getElementById('rombelSelect');
+            const questionsContainer = document.getElementById('questionsContainer');
+            const noClassNotice = document.getElementById('noClassNotice');
+            const btnSubmit = document.getElementById('btnSubmit');
+
+            // Reset Rombel Dropdown
+            rombelSelect.innerHTML = '<option value="">-- Pilih Rombel --</option>';
+
+            if (!tingkat) {
+                rombelSelect.disabled = true;
+                rombelSelect.classList.add('bg-slate-100');
+                questionsContainer.classList.add('hidden');
+                noClassNotice.classList.remove('hidden');
+                btnSubmit.disabled = true;
+                btnSubmit.className = "w-full bg-slate-300 text-slate-500 font-semibold py-3.5 px-4 rounded-xl cursor-not-allowed flex items-center justify-center space-x-2";
+                return;
+            }
+
+            // Populate Sub-Kelas
+            rombelSelect.disabled = false;
+            rombelSelect.classList.remove('bg-slate-100');
+            rombelData[tingkat].forEach(r => {
+                const opt = document.createElement('option');
+                opt.value = r;
+                opt.textContent = r;
+                rombelSelect.appendChild(opt);
+            });
+
+            // Render Questions
+            renderQuestions(tingkat);
+            noClassNotice.classList.add('hidden');
+            questionsContainer.classList.remove('hidden');
+            
+            // Enable Submit Button
+            btnSubmit.disabled = false;
+            btnSubmit.className = "w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2 cursor-pointer";
+        }
+
+        function renderQuestions(tingkat) {
+            const data = soalBK[tingkat];
+            document.getElementById('tujuanTag').textContent = data.tujuan;
+
+            const listContainer = document.getElementById('questionList');
+            listContainer.innerHTML = '';
+
+            data.soal.forEach((item) => {
+                const qCard = document.createElement('div');
+                qCard.className = "bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-3";
+                
+                qCard.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <p class="text-sm font-medium text-slate-800"><span class="font-bold text-indigo-600">${item.id}.</span> ${item.teks}</p>
+                        <span class="text-[10px] font-semibold bg-white border border-slate-200 text-slate-500 px-2 py-0.5 rounded">${item.bidang}</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 pt-1">
+                        <label class="flex items-center justify-center p-2.5 text-xs font-medium border border-slate-200 bg-white rounded-lg cursor-pointer hover:bg-indigo-50 hover:border-indigo-300 transition text-slate-700">
+                            <input type="radio" name="p_${item.id}" value="Sangat Perlu" required class="mr-1.5 accent-indigo-600">
+                            Sangat Perlu
+                        </label>
+                        <label class="flex items-center justify-center p-2.5 text-xs font-medium border border-slate-200 bg-white rounded-lg cursor-pointer hover:bg-indigo-50 hover:border-indigo-300 transition text-slate-700">
+                            <input type="radio" name="p_${item.id}" value="Perlu" required class="mr-1.5 accent-indigo-600">
+                            Perlu
+                        </label>
+                        <label class="flex items-center justify-center p-2.5 text-xs font-medium border border-slate-200 bg-white rounded-lg cursor-pointer hover:bg-indigo-50 hover:border-indigo-300 transition text-slate-700">
+                            <input type="radio" name="p_${item.id}" value="Kurang Perlu" required class="mr-1.5 accent-indigo-600">
+                            Kurang Perlu
+                        </label>
+                    </div>
+                `;
+                listContainer.appendChild(qCard);
+            });
+
+            // Extra Questions
+            const extraBox = document.getElementById('extraQuestionBox');
+            extraBox.innerHTML = `<label class="block text-sm font-semibold text-indigo-900">${data.extraLabel}</label>`;
+            
+            if (data.extraType === 'text') {
+                extraBox.innerHTML += `<textarea id="extraAnswer" rows="3" required placeholder="Tuliskan jawaban Anda di sini..." class="w-full p-3 bg-white rounded-lg border border-slate-200 focus:ring-2 focus:ring-indigo-500 text-sm"></textarea>`;
+            } else {
+                let optionsHtml = `<select id="extraAnswer" required class="w-full p-3 bg-white rounded-lg border border-slate-200 focus:ring-2 focus:ring-indigo-500 text-sm"><option value="">-- Pilih Rencana --</option>`;
+                data.extraOptions.forEach(opt => {
+                    optionsHtml += `<option value="${opt}">${opt}</option>`;
+                });
+                optionsHtml += `</select>`;
+                extraBox.innerHTML += optionsHtml;
+            }
+        }
+
+        // Form Submit
+        document.getElementById('bkSurveyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const tingkat = document.getElementById('tingkatSelect').value;
+            const answers = [];
+            for (let i = 1; i <= 12; i++) {
+                const selected = document.querySelector(`input[name="p_${i}"]:checked`);
+                answers.push(selected ? selected.value : '-');
+            }
+
+            const payload = {
+                timestamp: new Date().toLocaleString("id-ID"),
+                nama: document.getElementById('nama').value,
+                tingkat: tingkat,
+                rombel: document.getElementById('rombelSelect').value,
+                jk: document.getElementById('jk').value,
+                p1: answers[0], p2: answers[1], p3: answers[2], p4: answers[3],
+                p5: answers[4], p6: answers[5], p7: answers[6], p8: answers[7],
+                p9: answers[8], p10: answers[9], p11: answers[10], p12: answers[11],
+                extra: document.getElementById('extraAnswer').value
+            };
+
+            const btnSubmit = document.getElementById('btnSubmit');
+            btnSubmit.disabled = true;
+            btnSubmit.innerText = "Mengirim...";
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                alert('Terima kasih! Survey berhasil terkirim ke Database BK.');
+                window.location.reload();
+            })
+            .catch(err => {
+                alert('Gagal mengirim jawaban. Pastikan koneksi terhubung.');
+                btnSubmit.disabled = false;
+                btnSubmit.innerText = "Kirim Jawaban Survey";
+            });
+        });
+    </script>
 </body>
 </html>
