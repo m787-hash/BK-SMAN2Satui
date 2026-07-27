@@ -121,8 +121,8 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // URL Google Apps Script milik Anda
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzScv_R0yt5nxn-2PEkADUQT752Mcyw4NqTzjXowOmvT9VSJ0O6OVRpoy2LDQGnvkk/exec';
+        // URL Google Apps Script yang baru (Gmail Pribadi)
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxqwS5rQ8CxH4oOLKs20r1I-dVNxJbo2suBzqB9DRQzy0RveeAu8J09Zb8TP6zY69SB/exec';
 
         // 1. Cek Apakah Siswa Sudah Pernah Mengisi saat Halaman Dimuat
         document.addEventListener('DOMContentLoaded', function() {
@@ -302,7 +302,7 @@
             }
         }
 
-        // Form Submit Logic (Menggunakan GET Request untuk menghindari kendala CORS)
+        // Form Submit Logic (Kembali menggunakan POST)
         document.getElementById('bkSurveyForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -329,12 +329,9 @@
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<span>Mengirim...</span> <i class="fa-solid fa-spinner fa-spin text-sm"></i>';
 
-            // Buat URL Query Parameters untuk GET request
-            const params = new URLSearchParams(payload).toString();
-
-            // Kirim menggunakan GET Request ke Apps Script
-            fetch(`${scriptURL}?${params}`, {
-                method: 'GET'
+            fetch(scriptURL, {
+                method: 'POST',
+                body: new URLSearchParams(payload)
             })
             .then(res => res.json())
             .then(data => {
@@ -343,14 +340,14 @@
                     alert('Terima kasih! Survey berhasil terkirim ke Database BK SMAN 2 Satui.');
                     window.location.reload();
                 } else {
-                    alert(data.message);
+                    alert(data.message); // Tampilkan pesan error jika duplikat
                     btnSubmit.disabled = false;
                     btnSubmit.className = "w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2 cursor-pointer";
                     btnSubmit.innerHTML = '<span>Kirim Jawaban Survey</span> <i class="fa-solid fa-paper-plane text-sm"></i>';
                 }
             })
             .catch(err => {
-                alert('Terjadi kesalahan koneksi. Pastikan izin Apps Script diset ke "Anyone" (Siapa Saja).');
+                alert('Terjadi kesalahan. Pastikan Anda menggunakan koneksi internet yang stabil.');
                 btnSubmit.disabled = false;
                 btnSubmit.className = "w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2 cursor-pointer";
                 btnSubmit.innerHTML = '<span>Kirim Jawaban Survey</span> <i class="fa-solid fa-paper-plane text-sm"></i>';
