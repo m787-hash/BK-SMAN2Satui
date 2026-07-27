@@ -302,7 +302,7 @@
             }
         }
 
-        // Form Submit Logic (Kembali menggunakan POST)
+        // Form Submit Logic (Menggunakan GET untuk menghindari CORS Error)
         document.getElementById('bkSurveyForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -329,9 +329,11 @@
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<span>Mengirim...</span> <i class="fa-solid fa-spinner fa-spin text-sm"></i>';
 
-            fetch(scriptURL, {
-                method: 'POST',
-                body: new URLSearchParams(payload)
+            // Menggunakan GET request agar tidak diblokir oleh CORS Browser
+            const params = new URLSearchParams(payload).toString();
+            
+            fetch(`${scriptURL}?${params}`, {
+                method: 'GET'
             })
             .then(res => res.json())
             .then(data => {
